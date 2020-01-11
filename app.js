@@ -9,18 +9,21 @@ let animals = ["sealion", "lion", "tiger"]
 
 app.use(cors());
 
-const isIncluded = (req, res, next) => {
-    if(req.params.include(animals)){
-        res.json({status: 200, message: true})
+const isAnimal = (req, res, next) => {
+    let result = req.params
+    for(let i = 0; i < animals.length; i++){
+        if(animals[i] === result['animal']){
+            res.json({status: 200, message: true})
+        } else {
+            res.json({status: 200, message: false})
+        }
     }
     next()
 }
 
-app.get("/animals/:animal", isIncluded, (req, res) => {
-    // if(res.includes(animals)){
-    //     res.json({status: 200, message: true})
-    // }
-})
+// app.use(isAnimal);
+
+app.get("/animals/:animal", isAnimal)
 
 app.listen(port, () => {
     console.log("you are running on port ", port)
