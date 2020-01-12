@@ -27,11 +27,14 @@ app.use(cors());
 const generateSpread = (req, res, next) => {
     let n1 = req.params["num1"]
     let n2 = req.params["num2"]
-    res.json(Math.floor(Math.random() * (parseInt(n1) - parseInt(n2) + 1)) + parseInt(n2));
+    let result = Math.floor(Math.random() * (parseInt(n1) - parseInt(n2) + 1)) + parseInt(n2)
+    res.json(result);
     next();
 }
-
-app.get("/random/:num1/:num2", generateSpread)
+app.use(generateSpread)
+app.get("/random/:num1/:num2", (res, req) => {
+    // res.json({status: "success", range: [req.params["num1"], req.params["num2"], randPic: })
+})
 
 app.listen(port, () => {
     console.log("you are running on port ", port)
